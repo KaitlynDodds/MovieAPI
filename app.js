@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var request = require('request');
 
+app.set("view engine", "ejs");
+
 app.get('/', function(req, res) {
     res.send("You made it to the home page.");
 });
@@ -9,8 +11,8 @@ app.get('/', function(req, res) {
 app.get('/results', function(req, res) {
     request("http://www.omdbapi.com/?apikey=66d897ed&s=Harry", function(error, response, body) {
         if (!error) {
-            var results = JSON.parse(body);
-            res.send(results);
+            var data = JSON.parse(body);
+            res.render("results", {data: data});
         }
     });
 });
