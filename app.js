@@ -5,11 +5,13 @@ var request = require('request');
 app.set("view engine", "ejs");
 
 app.get('/', function(req, res) {
-    res.send("You made it to the home page.");
+    res.render("search");
 });
 
 app.get('/results', function(req, res) {
-    request("http://www.omdbapi.com/?apikey=66d897ed&s=Harry", function(error, response, body) {
+    var search = req.query.search;
+    var url = "http://www.omdbapi.com/?apikey=66d897ed&s=" + search;
+    request(url, function(error, response, body) {
         if (!error) {
             var data = JSON.parse(body);
             res.render("results", {data: data});
